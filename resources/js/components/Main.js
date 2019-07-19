@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Plant from './Plant';
-import AddPlant from './Plant';
+import AddPlant from './AddPlant';
 
 class Main extends Component {
   constructor(){

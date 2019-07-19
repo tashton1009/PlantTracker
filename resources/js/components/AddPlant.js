@@ -40,7 +40,6 @@ class AddPlant extends Component {
       <div>
         <h2> Add new plant </h2>
         <div style={divStyle}>
-          //when the submit button is pressed, the control is passed the the handleSubmit method
           <form onSubmit={this.handleSubmit}>
             <label> Name:
               <input type="text" onChange={(e)=>this.handleInput('name', e)} />
@@ -56,4 +55,4 @@ class AddPlant extends Component {
   }
 }
 
-export default AddProduct;
+export default AddPlant;

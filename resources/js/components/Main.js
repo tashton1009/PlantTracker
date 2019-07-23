@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Plant from './Plant';
 import AddPlant from './AddPlant';
+import NavDrawer from './NavDrawer'
 
 class Main extends Component {
   constructor(){
@@ -11,6 +12,7 @@ class Main extends Component {
       plants:[],
       currentPlant: null
     }
+    this.handleAddPlant = this.handleAddPlant.bind(this);
   }
   //componentDidMount() is a lifecycle method
   //that gets called after the component is rendered
@@ -18,7 +20,6 @@ class Main extends Component {
     // fetch API in action
     fetch('/api/plants')
       .then(response => {
-        console.log(response);
         return response.json();
       })
       .then(plants => {
@@ -46,9 +47,63 @@ class Main extends Component {
       this.setState({currentPlant:plant});
     }
 
+    handleAddPlant(plant) {
+      //fetch api post request
+      fetch('api/plants', {
+        method:'post',
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(plant)
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then( data => {
+        this.setState((prevState)=> ({ plants: prevState.plants.concat(data), currentPlant : data}))
+      })
+    }
+
+    handleDelete(plant) {
+      const currentPlant = this.state.currentPlant;
+      fetch( 'api/plants/' + this.state.currentPlant.id,
+        { method:'delete'})
+        .then( response => {
+          var array = this.state.plants.filter(function(item) {
+            return item !== currentPlant
+          });
+          this.setState({ plants: array, currentPlant: null});
+        });
+    }
+
+    handleUpdate(plant) {
+      const currentPlant = this.state.currentPlant;
+      fetch('api/plants/' + this.state.currentPlant.id,
+        { method: 'put',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(plant)
+        })
+        .then( response =>{
+          return response.json();
+        })
+        .then( data => {
+          var array = this.state.plants.filter(function(item){
+            return item !== currentPlant
+          })
+          this.setState((prevState)=> ({ plants:array.concat(plant), currentPlant : plant}))
+        })
+    }
+
     render() {
       return (
         <div>
+        <div>
+        <NavDrawer />
+        </div>
           <div>
             <h3> All Plants </h3>
               <ul>

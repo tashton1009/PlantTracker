@@ -6,7 +6,7 @@ class AddPlant extends Component {
     super(props);
       this.state = {
         newPlant: {
-          title: '',
+          name: '',
           sunlight: ''
         }
       }
@@ -28,6 +28,7 @@ class AddPlant extends Component {
     //prevent default prevents the page from reloading
     e.preventDefault();
     //a call back to the onAdd props, the current state is passed as a parameter
+    console.log(this);
     this.props.onAdd(this.state.newPlant);
   }
 

@@ -20,10 +20,9 @@ class PlantsController extends Controller
     public function store(Request $request, Plant $plant)
     {
       $this->validate($request, [
-        'name' => 'required|unique:products|max:255',
+        'name' => 'required|unique:plants|max:255',
         'sunlight' => 'required'
     ]);
-
       $plant = Plant::create($request->all());
       return response()->json($plant, 201);
     }
